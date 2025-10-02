@@ -1,0 +1,66 @@
+set shell := ["bash", "-eu", "-o", "pipefail", "-c"]
+
+default:
+    @just --list
+
+# Install dependencies and set up development environment
+install:
+    uv sync --extra dev
+    uv run pre-commit install
+    uv pip compile pyproject.toml -o requirements.txt
+
+# Format and fix code
+format:
+    uv run ruff format .
+    uv run ruff check --fix .
+
+# Run linting
+check:
+    uv run ruff check .
+
+# Run tests
+test:
+    uv run pytest
+
+# Run the extension locally
+dev:
+    uv run python main.py
+
+# Package the extension for distribution
+package:
+    uv pip compile pyproject.toml -o requirements.txt
+    uv run python scripts/package_extension.py
+
+# Create a new release
+release VERSION:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    # Bump version using Python script
+    uv run python scripts/bump_version.py {% raw %}{{VERSION}}{% endraw %}
+
+    # Run checks
+    just check
+    just test
+
+    # Commit and tag (only if there are changes)
+    git add extension.toml pyproject.toml
+    if git diff --staged --quiet; then
+        echo "Version already set to {% raw %}{{VERSION}}{% endraw %}, creating tag only"
+    else
+        git commit -m "Release v{% raw %}{{VERSION}}{% endraw %}"
+    fi
+    git tag "v{% raw %}{{VERSION}}{% endraw %}"
+
+    echo ""
+    echo "✓ Release v{% raw %}{{VERSION}}{% endraw %} ready!"
+    echo ""
+    echo "Push with:"
+    echo "  git push origin main v{% raw %}{{VERSION}}{% endraw %}"
+
+# Clean build artifacts
+clean:
+    rm -rf dist build .pytest_cache .ruff_cache
+    rm -rf {{cookiecutter.project_name}}-v*.tar.gz
+    rm -rf .artifacts
+    find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true

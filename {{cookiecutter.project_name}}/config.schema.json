@@ -1,0 +1,31 @@
+{
+  "$comment": "This schema defines the configuration UI in Zelos App. See https://docs.zeloscloud.io/sdk/how-to/develop-extensions/#configuration for full widget reference.",
+  "type": "object",
+  "title": "{{cookiecutter.project_name}} Configuration",
+  "description": "Configure your {{cookiecutter.project_name}} extension",
+  "properties": {
+    "sensor_name": {
+      "type": "string",
+      "title": "Sensor Name",
+      "description": "Unique identifier for this sensor",
+      "default": "sensor-01",
+      "minLength": 3,
+      "maxLength": 50,
+      "ui:placeholder": "Enter sensor name..."
+    },
+    "interval": {
+      "type": "number",
+      "title": "Sample Interval (seconds)",
+      "description": "Data collection interval from 1kHz to 1Hz",
+      "minimum": 0.001,
+      "maximum": 1.0,
+      "multipleOf": 0.001,
+      "default": 0.1,
+      "ui:widget": "range",
+      "ui:help": "Lower values = higher frequency (1ms increments)"
+    }
+  },
+  "required": [
+    "sensor_name"
+  ]
+}
