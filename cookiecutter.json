@@ -1,0 +1,11 @@
+{
+  "author": "Your Name",
+  "email": "you@example.com",
+  "author_github_handle": "yourusername",
+  "project_name": "my-zelos-extension",
+  "project_description": "A Zelos extension for {{cookiecutter.project_name|replace('-', ' ')}}",
+  "publisher_id": "{{cookiecutter.author_github_handle|lower|replace('_', '-')}}",
+  "extension_id": "{{cookiecutter.publisher_id}}.{{cookiecutter.project_name|lower}}",
+  "project_slug": "{{cookiecutter.project_name|lower|replace('-', '_')}}",
+  "python_version": "3.11"
+}

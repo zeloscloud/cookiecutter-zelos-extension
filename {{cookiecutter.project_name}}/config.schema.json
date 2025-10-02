@@ -1,0 +1,25 @@
+{
+  "type": "object",
+  "title": "Sensor Configuration",
+  "properties": {
+    "sensor_name": {
+      "type": "string",
+      "title": "Sensor Name",
+      "default": "sensor-01",
+      "minLength": 3,
+      "maxLength": 50,
+      "description": "Unique identifier for this sensor"
+    },
+    "interval": {
+      "type": "number",
+      "title": "Sample Interval",
+      "minimum": 0.001,
+      "maximum": 1.0,
+      "default": 0.1,
+      "description": "Collection interval in seconds (1kHz to 1Hz)"
+    }
+  },
+  "required": [
+    "sensor_name"
+  ]
+}
