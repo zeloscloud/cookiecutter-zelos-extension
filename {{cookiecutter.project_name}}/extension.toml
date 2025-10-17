@@ -17,7 +17,7 @@ changelog = "CHANGELOG.md"
 
 # Compatibility (optional, defaults to ^25.0.20)
 [zelos]
-version = "^25.0.20"
+version = ">=25.0.22-0"
 
 # Configuration schema (enables UI in Zelos App)
 [config]
@@ -27,7 +27,6 @@ schema = "config.schema.json"
 [runtime]
 type = "python"
 entry = "main.py"
-requirements = "requirements.txt"
 python_version = "{{ cookiecutter.python_version }}"
 
 # Graceful shutdown configuration (optional, defaults to 10)

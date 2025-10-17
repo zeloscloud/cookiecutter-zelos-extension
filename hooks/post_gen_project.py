@@ -35,18 +35,6 @@ def run_command(cmd: list[str], description: str, critical: bool = False) -> boo
         return False
 
 
-def compile_requirements() -> bool:
-    """Compile initial requirements.txt from pyproject.toml.
-
-    :return: True if successful, False otherwise
-    """
-    return run_command(
-        ["uv", "pip", "compile", "pyproject.toml", "-o", "requirements.txt"],
-        "Created requirements.txt",
-        critical=False,
-    )
-
-
 def initialize_git() -> bool:
     """Initialize git repository.
 
@@ -71,26 +59,51 @@ def install_dependencies() -> bool:
     )
 
 
+def install_pre_commit_hooks() -> bool:
+    """Install pre-commit hooks if dependencies were installed.
+
+    :return: True if successful, False otherwise
+    """
+    return run_command(
+        ["uv", "run", "pre-commit", "install"],
+        "Installed pre-commit hooks",
+        critical=False,
+    )
+
+
+def stage_initial_files() -> bool:
+    """Stage all files for initial commit (including uv.lock).
+
+    :return: True if successful, False otherwise
+    """
+    return run_command(
+        ["git", "add", "."],
+        "Staged initial files (including uv.lock)",
+        critical=False,
+    )
+
+
 if __name__ == "__main__":
     print(f"\n🚀 Setting up {os.path.basename(PROJECT_DIRECTORY)}")
     print("-" * 40)
 
-    # Initialize git repository
     initialize_git()
 
-    # Try to compile requirements.txt
-    if not compile_requirements():
-        print("  → Run 'just install' to generate requirements.txt")
-
-    # Try to install dependencies
-    if not install_dependencies():
-        print("  → Run 'just install' to install dependencies")
+    deps_installed = install_dependencies()
+    if deps_installed:
+        install_pre_commit_hooks()
+        stage_initial_files()
+    else:
+        print("  → Run 'just install' to install dependencies and pre-commit hooks")
 
     print("-" * 40)
     print("\n📦 Next steps:")
     print("  1. cd {}".format(os.path.basename(PROJECT_DIRECTORY)))
-    print("  2. just install    # Install dependencies and pre-commit hooks")
-    print("  3. just dev        # Run the extension locally")
+    if not deps_installed:
+        print("  2. just install    # Install dependencies and pre-commit hooks")
+        print("  3. just dev        # Run the extension locally")
+    else:
+        print("  2. just dev        # Run the extension locally")
     print("\n⚠️  Important:")
     print("  - Develop locally BEFORE installing in Zelos")
     print("  - If you get venv errors, run: rm -rf .venv && just install")

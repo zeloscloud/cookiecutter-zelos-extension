@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Package the Zelos extension into a tar.gz archive."""
 
-import subprocess
 import sys
 import tarfile
 from pathlib import Path
@@ -56,57 +55,53 @@ def main() -> None:
         print("ERROR: No version in extension.toml")
         sys.exit(1)
 
-    # Ensure requirements.txt exists
-    if not Path("requirements.txt").exists():
-        print("Compiling requirements.txt...")
-        result = subprocess.run(
-            ["uv", "pip", "compile", "pyproject.toml", "-o", "requirements.txt"],
-            capture_output=True,
-            text=True,
-        )
-        if result.returncode != 0:
-            print("ERROR: Failed to compile requirements.txt")
-            print(result.stderr)
-            sys.exit(1)
-
     # Collect files to package
     files = ["extension.toml"]  # Always required
 
-    # Add runtime files from manifest
     runtime = manifest.get("runtime", {})
     if "entry" in runtime:
         files.append(runtime["entry"])
     if "requirements" in runtime:
-        files.append(runtime["requirements"])
+        req_file = runtime["requirements"]
+        if Path(req_file).exists():
+            files.append(req_file)
+
+    if Path("pyproject.toml").exists():
+        files.append("pyproject.toml")
+    if Path("uv.lock").exists():
+        files.append("uv.lock")
 
     # Add optional files referenced in manifest
+    # (skip files in assets/ directory since we'll add the whole directory)
     for key in ["icon", "readme", "changelog"]:
         if key in manifest:
-            files.append(manifest[key])
+            file_path = manifest[key]
+            # Only add if not in assets directory
+            if not file_path.startswith("assets/"):
+                files.append(file_path)
 
     # Add config schema if present
     config = manifest.get("config", {})
     if "schema" in config:
         files.append(config["schema"])
 
-    # Add Python packages from src/ directory
-    src_dir = Path("src")
-    if src_dir.exists():
-        for path in src_dir.iterdir():
-            if (
-                path.is_dir()
-                and (path / "__init__.py").exists()
-                and path.name not in ["tests", "test", "__pycache__"]
-            ):
-                files.append(f"src/{path.name}")
+    # Add assets directory if it exists (includes icon and other assets)
+    if Path("assets").exists():
+        files.append("assets")
 
-    # Also check root for any packages (backwards compatibility)
+    # Add Python packages from root directory
+    exclude_dirs = {
+        "tests",
+        "test",
+        "__pycache__",
+        ".venv",
+        ".git",
+        ".vscode",
+        ".github",
+        "scripts",
+    }
     for path in Path().iterdir():
-        if (
-            path.is_dir()
-            and path.name not in ["src", "tests", "test", "__pycache__", ".vscode", ".github"]
-            and (path / "__init__.py").exists()
-        ):
+        if path.is_dir() and path.name not in exclude_dirs and (path / "__init__.py").exists():
             files.append(path.name)
 
     # Create archive
