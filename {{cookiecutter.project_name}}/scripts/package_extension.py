@@ -89,24 +89,20 @@ def main() -> None:
     if "schema" in config:
         files.append(config["schema"])
 
-    # Add Python packages from src/ directory
-    src_dir = Path("src")
-    if src_dir.exists():
-        for path in src_dir.iterdir():
-            if (
-                path.is_dir()
-                and (path / "__init__.py").exists()
-                and path.name not in ["tests", "test", "__pycache__"]
-            ):
-                files.append(f"src/{path.name}")
-
-    # Also check root for any packages (backwards compatibility)
+    # Add Python packages from root directory
+    exclude_dirs = {
+        "tests",
+        "test",
+        "__pycache__",
+        ".venv",
+        ".git",
+        ".vscode",
+        ".github",
+        "scripts",
+        "assets",
+    }
     for path in Path().iterdir():
-        if (
-            path.is_dir()
-            and path.name not in ["src", "tests", "test", "__pycache__", ".vscode", ".github"]
-            and (path / "__init__.py").exists()
-        ):
+        if path.is_dir() and path.name not in exclude_dirs and (path / "__init__.py").exists():
             files.append(path.name)
 
     # Create archive

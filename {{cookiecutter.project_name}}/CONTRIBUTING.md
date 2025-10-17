@@ -81,7 +81,7 @@ git push -u origin main
 
 ```bash
 # 1. Make changes
-vim src/{{cookiecutter.project_slug}}/extension.py
+vim {{cookiecutter.project_slug}}/extension.py
 
 # 2. Format and verify
 just format
@@ -106,12 +106,11 @@ git commit -m "feat: add new feature"
 ├── pyproject.toml              # Python dependencies and metadata
 ├── requirements.txt            # Generated for Zelos runtime
 ├── Justfile                    # Development commands
-├── src/
-│   └── {{cookiecutter.project_slug}}/
-│       ├── __init__.py
-│       ├── extension.py        # Core: SensorMonitor class with actions
-│       └── utils/
-│           └── __init__.py     # Utility modules (add as needed)
+├── {{cookiecutter.project_slug}}/
+│   ├── __init__.py
+│   ├── extension.py            # Core: SensorMonitor class with actions
+│   └── utils/
+│       └── __init__.py         # Utility modules (add as needed)
 ├── tests/
 │   └── test_extension.py       # Unit tests
 ├── assets/
@@ -132,7 +131,7 @@ git commit -m "feat: add new feature"
 
 - **`extension.toml`**: Extension metadata, version, and runtime config
 - **`main.py`**: Entry point with signal handlers and SDK initialization
-- **`src/{{cookiecutter.project_slug}}/extension.py`**: Core monitor class with lifecycle, actions, and data streaming
+- **`{{cookiecutter.project_slug}}/extension.py`**: Core monitor class with lifecycle, actions, and data streaming
 - **`config.schema.json`**: JSON Schema defining configuration UI in Zelos App
 
 ## Testing
