@@ -6,18 +6,16 @@ import signal
 from types import FrameType
 
 import zelos_sdk
+from zelos_sdk.extensions import load_config
 from zelos_sdk.hooks.logging import TraceLoggingHandler
-from zelos_sdk.utils import load_config
 
 from {{cookiecutter.project_slug}}.extension import SensorMonitor
 
 # Configure basic logging before SDK initialization
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Initialize SDK (required before adding trace logging handler)
+# Initialize SDK
 zelos_sdk.init(name="{{cookiecutter.project_slug}}", actions=True)
 
 # Add trace logging handler to send logs to Zelos
