@@ -10,7 +10,7 @@ install:
 
 # Install dependencies for CI (no pre-commit hooks)
 ci-install:
-    uv sync --extra dev
+    uv sync --locked --extra dev
 
 # Format code
 format:
