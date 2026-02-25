@@ -45,7 +45,7 @@ To use this template and develop extensions:
 
 - **Python 3.10-3.14** (template default: 3.11, customizable during generation)
 - **[Cookiecutter](https://github.com/cookiecutter/cookiecutter)** (or use `uvx` to run without installing)
-- **[UV](https://github.com/astral-sh/uv)** - For dependency management in generated projects
+- **[UV](https://github.com/astral-sh/uv) >= 0.10** - For dependency management in generated projects
 - **[Just](https://github.com/casey/just)** - For running development commands (e.g., `brew install just` on macOS)
 
 ## 🚀 Quick Start
@@ -149,6 +149,7 @@ my-zelos-extension/
 The generated project includes these `just` commands for development:
 
 - **`just install`** - Install dependencies and pre-commit hooks
+- **`just ci-install`** - Install using `uv.lock` (fails if lock is stale)
 - **`just dev`** - Run the extension locally for testing
 - **`just check`** - Run linting with ruff
 - **`just test`** - Run pytest
@@ -157,7 +158,7 @@ The generated project includes these `just` commands for development:
 - **`just package`** - Create tarball for marketplace
 - **`just clean`** - Remove build artifacts and caches
 
-All dependencies are managed by UV and locked in `uv.lock`.
+All dependencies are managed by UV and locked in `uv.lock`. Generated projects include `[tool.uv] required-version = ">=0.10"`, and CI uses `uv sync --locked --extra dev` for lockfile freshness enforcement.
 
 ### Documentation in Generated Projects
 

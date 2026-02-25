@@ -26,6 +26,15 @@ just test     # Run tests
 just check    # Lint code
 ```
 
+Dependency management uses UV with a minimum supported version:
+
+```toml
+[tool.uv]
+required-version = ">=0.10"
+```
+
+CI uses `just ci-install`, which runs `uv sync --locked --extra dev` and fails if `uv.lock` is out of date with `pyproject.toml`.
+
 1. Make your changes
 2. Run `just format` to auto-format
 3. Run `just test` to verify tests pass
