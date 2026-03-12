@@ -23,24 +23,7 @@ This template generates projects with **three distinct types of documentation**,
 
 **Example sections**: Features, Quick Start, Configuration, Actions, Data Format, Requirements
 
-### 2. Developer Documentation (Generated CONTRIBUTING.md)
-**Audience**: Contributors and developers working on the extension
-
-**Purpose**: Enable developers to set up, modify, and contribute to the extension
-
-**Focus**:
-- ✅ Development environment setup
-- ✅ Project structure explanation
-- ✅ Testing and debugging
-- ✅ Code style guidelines
-- ✅ Release process
-- ✅ All `just` commands
-- ✅ How to add features
-- ❌ Not for end-users
-
-**Example sections**: Development Setup, Testing, Project Structure, Code Style, Releasing, Debugging
-
-### 3. Template Documentation (Root README.md)
+### 2. Template Documentation (Root README.md)
 **Audience**: Extension authors using this template
 
 **Purpose**: Explain how to use the cookiecutter template to generate extensions
@@ -67,11 +50,8 @@ cookiecutter-zelos-extension/
 │   ├── pyproject.toml           # Python dependencies (UV)
 │   ├── Justfile                 # Development commands
 │   ├── README.md                # 📖 MARKETPLACE-FOCUSED (for users)
-│   ├── CONTRIBUTING.md          # 🛠️ DEVELOPER-FOCUSED (for contributors)
-│   ├── CHANGELOG.md             # 📝 VERSION HISTORY (for everyone)
 │   ├── {{cookiecutter.project_slug}}/
-│   │   ├── extension.py         # Extension class
-│   │   └── utils/config.py      # Configuration utilities
+│   │   └── extension.py         # Extension class
 │   ├── tests/                   # Test suite
 │   ├── assets/icon.svg          # Extension icon
 │   ├── scripts/package_extension.py
@@ -114,24 +94,11 @@ This is wrong for the marketplace - users don't care about `just` commands!
 ```
 This is correct - it tells users what to do, not developers.
 
-### ✅ Good CONTRIBUTING.md (Developer-Focused)
-```markdown
-## Development Workflow
-\`\`\`bash
-just install
-just dev
-just test
-\`\`\`
-```
-Perfect! Development commands belong in CONTRIBUTING.md.
-
 ## Quality Checklist
 
 When maintaining this template, ensure:
 
 - [ ] Generated README.md is marketplace-focused (no development details)
-- [ ] Generated CONTRIBUTING.md is comprehensive for developers
-- [ ] Generated CHANGELOG.md follows Keep a Changelog format
 - [ ] Root README.md explains template usage clearly
 - [ ] All `just` commands work in generated projects
 - [ ] CI/CD workflows pass
@@ -151,8 +118,6 @@ just install && just check && just test && just package
 
 # Review the documentation
 cat README.md         # Should be marketplace-focused
-cat CONTRIBUTING.md   # Should be developer-focused
-cat CHANGELOG.md      # Should be version history
 ```
 
 ## Maintenance Notes
@@ -160,7 +125,5 @@ cat CHANGELOG.md      # Should be version history
 When updating this template:
 
 1. **README.md changes**: Focus on end-user value, remove dev details
-2. **CONTRIBUTING.md changes**: Add more developer details, keep comprehensive
-3. **CHANGELOG.md changes**: Follow Keep a Changelog format strictly
-4. **Root README.md changes**: Keep template usage instructions clear
-5. **Always test generation**: Run the test commands above before committing
+2. **Root README.md changes**: Keep template usage instructions clear
+4. **Always test generation**: Run the test commands above before committing

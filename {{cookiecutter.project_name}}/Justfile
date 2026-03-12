@@ -50,7 +50,8 @@ release VERSION:
     just format
     uv lock
 
-    # Run tests
+    # Run checks and tests
+    just check
     just test
 
     # Commit everything

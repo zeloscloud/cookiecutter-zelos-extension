@@ -24,7 +24,7 @@ def validate_semver(version: str) -> bool:
 def update_toml_version(file_path: Path, new_version: str) -> bool:
     """Update version in a TOML file.
 
-    For extension.toml, only updates top-level version, not [zelos].version.
+    For extension.toml, updates the top-level version.
     For pyproject.toml, updates the [project] version.
 
     :param file_path: Path to TOML file
@@ -35,8 +35,6 @@ def update_toml_version(file_path: Path, new_version: str) -> bool:
     original_content = content
 
     if file_path.name == "extension.toml":
-        # Only update top-level version, not [zelos].version
-        # Pattern: version = "old" at start of line, not in [zelos] section
         content = re.sub(
             r'^version = ".*?"$',
             f'version = "{new_version}"',

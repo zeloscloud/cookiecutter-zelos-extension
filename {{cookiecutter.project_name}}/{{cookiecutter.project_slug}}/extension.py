@@ -53,7 +53,7 @@ class SensorMonitor:
             # Determine status based on cached temperature
             status = 0  # OK
             last_temp = self.source.environmental.temperature.get()
-            if last_temp:
+            if last_temp is not None:
                 if last_temp > 30:
                     status = 2  # ERROR
                 elif last_temp > 25:
@@ -70,13 +70,15 @@ class SensorMonitor:
                 current=current,
             )
 
-            # Log every 10 loops
             loop_count += 1
             if loop_count % 10 == 0:
                 logger.info(
-                    f"temp={temp:.1f}°C, pressure={pressure:.1f}hPa, "
-                    f"voltage={voltage:.1f}V, current={current:.1f}A, "
-                    f"status={self.STATUS[status]}"
+                    "temp=%.1f°C, pressure=%.1fhPa, voltage=%.1fV, current=%.1fA, status=%s",
+                    temp,
+                    pressure,
+                    voltage,
+                    current,
+                    self.STATUS[status],
                 )
 
             time.sleep(self.config.get("interval", 0.1))

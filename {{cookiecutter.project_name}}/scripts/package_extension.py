@@ -62,18 +62,16 @@ def main() -> None:
     if "entry" in runtime:
         files.append(runtime["entry"])
     if "requirements" in runtime:
-        req_file = runtime["requirements"]
-        if Path(req_file).exists():
-            files.append(req_file)
+        files.append(runtime["requirements"])
 
-    if Path("pyproject.toml").exists():
-        files.append("pyproject.toml")
-    if Path("uv.lock").exists():
-        files.append("uv.lock")
+    # Optional project files (only add if present)
+    for optional in ["pyproject.toml", "uv.lock"]:
+        if Path(optional).exists():
+            files.append(optional)
 
     # Add optional files referenced in manifest
     # (skip files in assets/ directory since we'll add the whole directory)
-    for key in ["icon", "readme", "changelog"]:
+    for key in ["icon", "readme"]:
         if key in manifest:
             file_path = manifest[key]
             # Only add if not in assets directory
