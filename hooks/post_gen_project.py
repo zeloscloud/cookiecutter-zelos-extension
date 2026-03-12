@@ -108,6 +108,5 @@ if __name__ == "__main__":
     print("  - Develop locally BEFORE installing in Zelos")
     print("  - If you get venv errors, run: rm -rf .venv && just install")
     print("\n📚 Documentation:")
-    print("  - See CONTRIBUTING.md for development workflow")
     print("  - See README.md for usage instructions")
     print("  - Run 'just' to see all available commands\n")

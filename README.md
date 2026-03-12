@@ -36,7 +36,7 @@ This template generates a complete Zelos extension project with:
 ### Production Ready
 - 🚀 **GitHub Actions CI/CD** - Automated testing and releases
 - 📦 **Marketplace packaging** - Correct tarball format for Zelos marketplace
-- 📝 **Professional docs** - Marketplace-focused README, developer-focused CONTRIBUTING
+- 📝 **Professional docs** - Marketplace-focused README
 - 🔖 **Version management** - Automated version bumping and git tagging
 
 ## 📋 Prerequisites
@@ -126,9 +126,7 @@ my-zelos-extension/
 ├── pyproject.toml              # Dependencies and metadata
 ├── my_zelos_extension/
 │   ├── __init__.py
-│   ├── extension.py            # Extension class with actions
-│   └── utils/
-│       └── config.py           # Configuration loader
+│   └── extension.py            # Extension class with actions
 ├── tests/
 │   └── test_config.py
 ├── assets/
@@ -136,7 +134,6 @@ my-zelos-extension/
 ├── scripts/
 │   └── package_extension.py    # Packaging script
 ├── Justfile                    # Commands: install/dev/check/test/release/package
-├── CONTRIBUTING.md             # Developer documentation
 ├── .github/
 │   └── workflows/
 │       ├── ci.yml              # CI on main
@@ -158,13 +155,6 @@ The generated project includes these `just` commands for development:
 - **`just clean`** - Remove build artifacts and caches
 
 All dependencies are managed by UV and locked in `uv.lock`.
-
-### Documentation in Generated Projects
-
-Each generated project includes:
-- **README.md** - Marketplace-focused documentation for end-users
-- **CONTRIBUTING.md** - Comprehensive developer guide for contributors
-- **CHANGELOG.md** - Version history following Keep a Changelog format
 
 ## 🧪 Testing the Template
 
